@@ -16,7 +16,7 @@ class YoutubeController extends Controller
         $this->youtubeService = $youtubeService;
     }
 
-    public function channelVideos(Request $request)
+    public function index(Request $request)
     {
         // ID del canal de YouTube que quieres mostrar
         $channelId = 'UCdsJfMQjPg0W--sAEl7gzpA';

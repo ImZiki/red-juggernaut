@@ -13,7 +13,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Atributos asignables
      *
      * @var list<string>
      */
@@ -24,7 +24,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Atributos ocultos para serialización
      *
      * @var list<string>
      */
@@ -33,8 +33,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
     /**
-     * Get the attributes that should be cast.
+     * Atributos que tienen que ser casteados
      *
      * @return array<string, string>
      */
@@ -44,5 +45,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+// Añadir rol de administrador
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 }
