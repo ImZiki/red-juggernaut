@@ -32,6 +32,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    private string $role;
 
 
     /**

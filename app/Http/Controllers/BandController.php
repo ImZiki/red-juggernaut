@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
+use App\Models\Operative;
 use Illuminate\Http\Request;
 
 class BandController extends Controller
@@ -12,7 +12,7 @@ class BandController extends Controller
      */
     public function index()
     {
-        //$members = Member::all();
+        //$members = Operative::all();
         return view('pages.racf.racf', /*compact('members')*/);
     }
 
@@ -21,8 +21,8 @@ class BandController extends Controller
      */
     public function showMember($id)
     {
-        $member = Member::findOrFail($id);
-        return view('pages.racf.member', compact('member'));
+        $member = Operative::findOrFail($id);
+        return view('pages.racf.operatives.'.$member->codename, compact('member'));
     }
 
     /**
