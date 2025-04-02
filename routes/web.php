@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ConcertController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
@@ -10,25 +11,22 @@ use App\Http\Controllers\YoutubeController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-});
 
 //Ruta de idioma con middleware
-Route::post('/language/change', [LanguageController::class, 'change'])
+/*Route::post('/language/change', [LanguageController::class, 'change'])
     ->name('language.change')
     ->middleware(SetLocale::class);
-Route::get('/test-session', function () {
-    session(['test_key' => 'Hello, session!']);
-    return session('test_key');
-});
+*/
+
 //Rutas generales
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/banda', [BandController::class, 'index'])->name('banda');
-Route::get('/videos', [YoutubeController::class, 'index'])->name('videos');
-Route::get('/conciertos', [ConcertController::class, 'index'])->name('conciertos');
-Route::get('/tienda', [ShopController::class, 'index'])->name('tienda');
-
+Route::get('/racf', [BandController::class, 'index'])->name('racf');
+Route::get('/ops', [YoutubeController::class, 'index'])->name('ops');
+Route::get('/comms', [ConcertController::class, 'index'])->name('comms');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/bio', [BandController::class, 'bio'])->name('bio');
+Route::get('/skills', [BandController::class, 'skills'])->name('skills');
+Route::get('/member/{id}', [BandController::class, 'showMember'])->name('racf.member.show');
 
 //Rutas de perfil de usuario
 Route::middleware('auth')->group(function () {
@@ -36,5 +34,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::patch('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/edit', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/orderhistory', [ProfileController::class, 'orderhistory'])->name('profile.orderhistory');
 });
+//Rutas temporales de la tienda
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::get('/product/{id}', [ShopController::class, 'show'])->name('product.show');
 require __DIR__.'/auth.php';

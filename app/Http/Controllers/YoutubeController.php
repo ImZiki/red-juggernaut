@@ -25,6 +25,6 @@ class YoutubeController extends Controller
         $videos = $this->youtubeService->getChannelVideos($channelId, 5);
 
         // Pasar datos a la vista
-        return view('pages.videos', ['videos' => $videos]);
+        return view('pages.ops.videos', ['videos' => $videos]);
     }
 }

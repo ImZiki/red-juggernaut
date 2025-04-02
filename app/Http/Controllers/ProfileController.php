@@ -15,7 +15,9 @@ class ProfileController extends Controller
     public function dashboard(){
         return view('profile.dashboard');
     }
-
+    public function orderhistory(){
+        return view('profile.orderhistory');
+    }
     /**
      * Display the user's profile form.
      */

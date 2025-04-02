@@ -12,8 +12,8 @@ class BandController extends Controller
      */
     public function index()
     {
-        $members = Member::all();
-        return view('pages.band.index', compact('members'));
+        //$members = Member::all();
+        return view('pages.racf.racf', /*compact('members')*/);
     }
 
     /**
@@ -22,22 +22,22 @@ class BandController extends Controller
     public function showMember($id)
     {
         $member = Member::findOrFail($id);
-        return view('pages.band.member', compact('member'));
+        return view('pages.racf.member', compact('member'));
     }
 
     /**
-     * Muestra la página del universo RED FORCE
+     * Muestra la página de biografia real de la banda
      */
-    public function universe()
+    public function bio()
     {
-        return view('pages.band.universe');
+        return view('pages.bio');
     }
 
     /**
-     * Muestra la página de historia de la banda
+     * Muestra la pagina de competencias de la banda
      */
-    public function history()
+    public function skills()
     {
-        return view('pages.band.history');
+        return view('pages.skills');
     }
 }
