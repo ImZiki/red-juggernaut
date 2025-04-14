@@ -27,6 +27,33 @@
         {{ $slot }}
     </main>
 </div>
+
 @include('components.footer')
+
+<!-- Botón de Volver Arriba -->
+<button id="backToTopButton" class="fixed bottom-5 right-5 p-3 bg-red-700 text-white rounded-full shadow-lg hidden transition-all duration-300 hover:bg-red-300 hover:text-black"
+        onclick="scrollToTop()">
+    ↑
+</button>
+
+<script>
+    // Detectar el scroll y mostrar el botón
+    window.onscroll = function() {
+        const button = document.getElementById('backToTopButton');
+        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+            button.classList.remove('hidden');
+        } else {
+            button.classList.add('hidden');
+        }
+    };
+
+    // Función para volver arriba
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+</script>
 </body>
 </html>

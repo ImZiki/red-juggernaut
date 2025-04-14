@@ -2,8 +2,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Biografía de la banda -->
         <div class="mb-16">
-            <h1 class="text-4xl font-bold text-center mb-8 text-gray-900">R.A.C.F.</h1>
-            <div class="rounded-lg shadow-lg p-8">
+            <h1 class="text-[3em] font-bold text-center mb-8 text-red-900">R.A.C.F.</h1>
+            <div class="rounded-lg  p-8">
                 <p class="text-gray-700 mb-6">
                     El escuadrón de élite <strong>R.A.C.F.</strong> (<em>Red Advance Covering Force</em>) es una fuerza de operaciones especiales aliada del <strong>Juggernaut Rojo</strong>, brindando apoyo a las tropas de la <strong>Red Force</strong>.
                 </p>
@@ -20,7 +20,7 @@
         </div>
 
         <!-- Miembros de la banda -->
-        <h2 class="text-3xl font-bold text-center mb-10 text-gray-900">Grupo de operaciones especiales</h2>
+        <h2 class="text-[4.5em] font-bold text-center mb-10 text-red-900 uppercase">Grupo de operaciones especiales</h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             @foreach ([
                 ['nombre'=> 'Red Juggernaut', 'color' => 'bg-red-700', 'foto'=>'redjugg3.png'],

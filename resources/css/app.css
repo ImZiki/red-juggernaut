@@ -16,7 +16,7 @@
 @font-face {
     font-family: 'OCR';
     src: url('/public/fonts/OCRAStd.otf') format('opentype'),
-    url('/public/fonts/OCRAStd.otf') format('opentype');
+    url('/public/fonts/OCR-a___.ttf') format('opentype');
     font-weight: bold;
     font-style: normal;
 }

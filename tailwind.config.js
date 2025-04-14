@@ -18,4 +18,20 @@ export default {
     },
 
     plugins: [forms],
+
+    extend: {
+        backgroundImage: {
+            'custom': "url('/public/images/background.png')",
+        },
+        backgroundSize: {
+            'cover': 'cover',
+        },
+        backgroundPosition: {
+            'center': 'center',
+        },
+        backgroundAttachment: {
+            'fixed': 'fixed',
+        }
+    }
+
 };

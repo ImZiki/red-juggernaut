@@ -22,10 +22,7 @@
                 <div class="w-full" x-data="{
                     currentImage: 0,
                     images: {{ json_encode(array_map(function($img) { return asset('images/' . $img); }, $product['image'])) }},
-
-                    init() {
-                        // Ya no necesitamos precargar para obtener dimensiones
-                    }
+                    init() {}
                 }">
                     <!-- Carrusel principal con tamaño fijo -->
                     <div class="relative overflow-hidden rounded-lg mb-4">
@@ -81,6 +78,11 @@
                     <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500">
                         Agregar al carrito
                     </button>
+
+                    <!-- Botón para volver a la tienda -->
+                    <a href="{{ route('shop') }}" class="inline-block mt-6 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition">
+                        <span class="mr-2">&larr;</span> Volver a la tienda
+                    </a>
                 </div>
             </div>
         </div>

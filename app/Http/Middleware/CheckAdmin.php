@@ -9,13 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckAdmin
 {
-    /**
-     * Manejo de una peticion.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
+
     public function handle(Request $request, Closure $next)
     {
         if (! $request->user() || ! $request->user()->isAdmin()) {
