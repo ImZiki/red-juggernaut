@@ -21,6 +21,7 @@ class ConcertSeeder extends Seeder
             'category' => 'Conciertos',
             'is_featured' => true,
             'is_active' => true,
+
         ]);
 
         $product2 = Product::create([

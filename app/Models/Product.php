@@ -15,7 +15,7 @@ class Product extends Model
         'image',
         'category',
         'is_featured',
-        'is_active'
+        'is_active',
     ];
 
     /**
