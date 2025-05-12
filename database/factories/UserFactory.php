@@ -27,8 +27,9 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('admin1234'),
             'remember_token' => Str::random(10),
+            'role' => 'user', // Por defecto, el rol es 'user'
         ];
     }
 
@@ -39,6 +40,19 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the user should be an admin.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'name' => 'ADMIN',
+            'email' => 'admin@admin.com',
+            'password' => static::$password ??= Hash::make('password'), // Contraseña predeterminada
+            'role' => 'admin', // Asignar rol de administrador
         ]);
     }
 }

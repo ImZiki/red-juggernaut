@@ -15,7 +15,6 @@ class Order extends Model
         'shipping_address',
         'billing_address',
         'payment_method',
-        'payment_id',
         'notes'
     ];
 

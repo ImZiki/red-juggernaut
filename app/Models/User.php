@@ -13,6 +13,16 @@ class User extends Authenticatable implements MustVerifyEmail
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->isAdmin() || $this->isSuperAdmin();
+    }
+
+    public function getFilamentName(): string
+    {
+        return $this->name;
+    }
+
     /**
      * Atributos asignables
      *
@@ -22,6 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -33,7 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
-    private string $role;
+
 
 
     /**
@@ -54,8 +65,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 // Añadir rol de administrador
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
+    public function isSuperAdmin():bool
+    {
+        return $this->role === 'superadmin';
+    }
+
+
 }

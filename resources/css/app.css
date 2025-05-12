@@ -5,6 +5,24 @@
     background-image: url('/public/images/background.png');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+.btn-hover-red:hover {
+    background-color: #dc2626; /* El color correspondiente a bg-red-700 */
+}
+
+.btn-hover-orange:hover {
+    background-color: #ea580c; /* El color correspondiente a bg-orange-700 */
+}
+
+.btn-hover-green:hover {
+    background-color: #16a34a; /* El color correspondiente a bg-green-700 */
+}
+
+.btn-hover-blue:hover {
+    background-color: #1e3a8a; /* El color correspondiente a bg-blue-700 */
 }
 @font-face {
     font-family: 'OCR';
@@ -19,4 +37,18 @@
     url('/public/fonts/OCR-a___.ttf') format('opentype');
     font-weight: bold;
     font-style: normal;
+}
+
+
+/* Asegúrate de que solo los días, meses y botones tengan la capitalización */
+.fc-toolbar-title:first-letter,
+.fc-day:first-letter,
+.fc-week-number:first-letter,
+.fc-button:first-letter {
+    text-transform: capitalize !important;
+}
+
+/* No capitalizar los títulos de los eventos */
+.fc-event-title {
+    text-transform: none !important;
 }

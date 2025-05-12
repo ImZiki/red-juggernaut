@@ -18,27 +18,29 @@
                 </p>
             </div>
         </div>
-
-        <!-- Miembros de la banda -->
-        <h2 class="text-[4.5em] font-bold text-center mb-10 text-red-900 uppercase">Grupo de operaciones especiales</h2>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            @foreach ([
-                ['nombre'=> 'Red Juggernaut', 'color' => 'bg-red-700', 'foto'=>'redjugg3.png'],
-                ['nombre' => 'Captain Eagle', 'color' => 'bg-orange-700', 'foto'=>'cpteagle3.png'],
-                ['nombre' => 'Dr. Owl', 'color' => 'bg-green-700', 'foto'=>'drowl4.png'],
-                ['nombre' => 'Wild Child', 'color' => 'bg-blue-700', 'foto'=>'wildchild3.png'],
-            ] as $miembro)
+        <!-- Tarjetas del grupo de operaciones especiales -->
+        <h2 class="text-[2em] font-bold text-center mb-10 text-red-900 uppercase">Grupo de operaciones especiales</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Tarjeta de cada miembro -->
+            @php
+                $members = [
+                    ['nombre'=> 'Red Juggernaut', 'color' => 'bg-red-700', 'foto'=>'redjugg3.png'],
+                    ['nombre' => 'Captain Eagle', 'color' => 'bg-orange-700', 'foto'=>'cpteagle3.png'],
+                    ['nombre' => 'Dr. Owl', 'color' => 'bg-green-700', 'foto'=>'drowl4.png'],
+                    ['nombre' => 'Wild Child', 'color' => 'bg-blue-700', 'foto'=>'wildchild3.png'],
+                ];
+            @endphp
+            @foreach($members as $member)
+                <a href="{{ route('racf.member.show', ['codename' => Str::slug($member['nombre'])]) }}">
                 <div class="band-member-card relative rounded-lg overflow-hidden shadow-xl h-[673px] cursor-pointer group bg-black">
-                    <!-- Capa de color (ahora oculta por defecto) -->
-                    <div class="gradient-overlay absolute inset-0 {{ $miembro['color'] }} opacity-0 transition-opacity duration-500 group-hover:opacity-80"></div>
-
+                    <!-- Capa de color -->
+                    <div class="gradient-overlay absolute inset-0 {{ $member['color'] }} opacity-0 transition-opacity duration-500 group-hover:opacity-80"></div>
                     <!-- Imagen -->
-                    <img src="{{ asset('images/'. $miembro['foto']) }}" alt="{{ $miembro['nombre'] }}" class="w-full h-full object-cover" />
-
+                    <img src="{{ asset('images/'. $member['foto']) }}" alt="{{ $member['nombre'] }}" class="w-full h-full object-cover" />
                     <!-- Contenido con texto visible desde el inicio -->
                     <div class="member-content absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-1/2 transition-transform duration-500 group-hover:translate-y-0">
                         <!-- Nombre visible siempre -->
-                        <h3 class="text-2xl font-bold mb-2 drop-shadow-md">{{ $miembro['nombre'] }}</h3>
+                        <h3 class="text-2xl font-bold mb-2 drop-shadow-md">{{ $member['nombre'] }}</h3>
                         <!-- Detalles que solo son visibles al hacer hover -->
                         <div class="member-details mt-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                             <p class="mb-3 text-white drop-shadow-md">Acceso al perfil operativo</p>

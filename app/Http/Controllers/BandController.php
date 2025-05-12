@@ -12,17 +12,29 @@ class BandController extends Controller
      */
     public function index()
     {
-        //$members = Operative::all();
-        return view('pages.racf.racf', /*compact('members')*/);
+
+        return view('pages.racf.racf');
     }
 
     /**
      * Muestra la página de un miembro específico
      */
-    public function showMember($id)
+    public function showMember($codename)
     {
-        $member = Operative::findOrFail($id);
-        return view('pages.racf.operatives.'.$member->codename, compact('member'));
+        $viewNames = [
+            'dr-owl' => 'drowl',
+            'red-juggernaut' => 'redjugg',
+            'wild-child' => 'wildchild',
+            'captain-eagle' => 'cpteagle',
+        ];
+
+        $viewName = $viewNames[$codename] ?? null;
+
+        if (!$viewName) {
+            abort(404, 'Miembro no encontrado');
+        }
+
+        return view('pages.racf.operatives.'.$viewName);
     }
 
     /**

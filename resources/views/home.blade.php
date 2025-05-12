@@ -4,8 +4,7 @@
             <img src="{{ asset('images/banner2.jpg') }}" alt="Logo 2" class="h-96 w-auto rounded-lg shadow-lg">
         </div>
     </x-slot>
-
-    <div class="py-12 bg-white">
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-16">
 
             <!-- Bloque 1: Imagen IZQUIERDA + Texto DERECHA -->

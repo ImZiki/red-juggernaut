@@ -9,24 +9,23 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\YoutubeController;
 use App\Http\Middleware\SetLocale;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 
 
-//Ruta de idioma con middleware
-/*Route::post('/language/change', [LanguageController::class, 'change'])
-    ->name('language.change')
-    ->middleware(SetLocale::class);
-*/
+
 
 //Rutas generales
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/racf', [BandController::class, 'index'])->name('racf');
+Route::get('/racf/{codename}', [BandController::class, 'showMember'])->name('racf.member.show');
 Route::get('/ops', [YoutubeController::class, 'index'])->name('ops');
 Route::get('/comms', [ConcertController::class, 'index'])->name('comms');
+Route::get('/api/concerts', [ConcertController::class, 'getConcerts']);
+Route::post('/comms', [ConcertController::class, 'handleRequestForm'])->name('concert.handleRequest');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/bio', [BandController::class, 'bio'])->name('bio');
 Route::get('/skills', [BandController::class, 'skills'])->name('skills');
-Route::get('/member/{id}', [BandController::class, 'showMember'])->name('racf.member.show');
 
 //Rutas de perfil de usuario
 Route::middleware('auth')->group(function () {
@@ -40,4 +39,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/product/{id}', [ShopController::class, 'show'])->name('product.show');
+
+require __DIR__ . '/admin.php';
 require __DIR__.'/auth.php';
