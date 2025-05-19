@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class PostController extends Controller
 {
     //
 }

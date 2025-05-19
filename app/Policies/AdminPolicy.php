@@ -11,4 +11,5 @@ class AdminPolicy
     {
         return $user->role === 'admin' || $user->role === 'superadmin';
     }
+
 }

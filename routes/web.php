@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\BandController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ConcertController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\YoutubeController;
@@ -37,8 +39,30 @@ Route::middleware('auth')->group(function () {
 });
 //Rutas temporales de la tienda
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/product/{id}', [ShopController::class, 'show'])->name('product.show');
+Route::post('/payment-intent', [OrderController::class, 'createPayment'])->name('payment.intent');
+Route::post('/update-payment-status/{paymentIntentId}', [OrderController::class, 'updatePaymentStatus']);
+Route::get('/order/{orderId}/success', [OrderController::class, 'showSuccess']);
+
+Route::middleware(['auth'])->group(function() {
+    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+
+    Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
+});
+
+//Rutas del carrito
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+
+//Rutas para manejo de pedidos
+Route::middleware('auth')->group(function () {
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::post('/orders/{order}/return-request', [OrderController::class, 'requestReturn'])->name('orders.returnRequest');
+});
+
 
 require __DIR__ . '/admin.php';
 require __DIR__.'/auth.php';

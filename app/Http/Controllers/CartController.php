@@ -2,36 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
-use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
+    // Mostrar carrito
     public function index()
     {
-        return view('pages.shop.cart');
+        $cart = Session::get('cart', []);
+        $total = collect($cart)->sum(function($item) {
+            return $item['price'] * $item['quantity'];
+        });
+
+        return view('pages.shop.cart', compact('cart', 'total'));
     }
 
-    //TODO: Metodo no testeado. No se si funciona correctamente todavía.
-    public function addToCart(Request $request, $id)
+    // Añadir producto al carrito
+    public function add(Request $request)
     {
-        $product = Product::findOrFail($id);
-        $cart = session()->get('cart', []);
+        $request->validate([
+            'product_id' => 'required|integer',
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer|min:1',
+            'option' => 'nullable|string',
+        ]);
 
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+        $productId = $request->product_id;
+        $option = $request->option ?? null;
+
+        $itemKey = $productId;
+        if ($option) {
+            $itemKey .= '-' . str_replace(' ', '_', $option);
+        }
+
+        $cart = Session::get('cart', []);
+
+        if (isset($cart[$itemKey])) {
+            $cart[$itemKey]['quantity'] += $request->quantity;
         } else {
-            $cart[$id] = [
-                'name' => $product->name,
-                'quantity' => 1,
-                'price' => $product->price,
-                'image' => $product->image,
+            $cart[$itemKey] = [
+                'name' => $request->name . ($option ? " ($option)" : ''),
+                'price' => $request->price,
+                'quantity' => $request->quantity,
+                'option' => $option,
             ];
         }
 
-        session()->put('cart', $cart);
+        Session::put('cart', $cart);
 
-        return redirect()->back()->with('success', 'Producto agregado al carrito');
+        return redirect()->route('cart.index')->with('success', 'Producto añadido al carrito.');
+    }
+
+    public function remove(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|string',
+        ]);
+
+        $cart = Session::get('cart', []);
+
+        if (isset($cart[$request->product_id])) {
+            unset($cart[$request->product_id]);
+            Session::put('cart', $cart);
+        }
+
+        return redirect()->route('cart.index')->with('success', 'Producto eliminado del carrito.');
+    }
+
+
+    // Vaciar carrito
+    public function clear()
+    {
+        Session::forget('cart');
+        return redirect()->route('cart.index')->with('success', 'Carrito vaciado.');
     }
 }

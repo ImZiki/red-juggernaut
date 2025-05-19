@@ -15,8 +15,11 @@ class Order extends Model
         'shipping_address',
         'billing_address',
         'payment_method',
-        'notes'
+        'notes',
+        'payment_intent_id',
+        'payment_status'
     ];
+
 
     /**
      * Get the user that owns the order.

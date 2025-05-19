@@ -4,6 +4,8 @@
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ConcertController;
+use App\Http\Controllers\OrderController;
+use App\Http\Middleware\IsAdminOrSuperAdmin;
 use Illuminate\Support\Facades\Route;
 
 
@@ -33,4 +35,7 @@ Route::middleware(['auth', 'can:accessAdminPanel'])->group(function () {
     Route::put('/admin/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
     Route::delete('/admin/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 
+    Route::middleware(['auth', isAdminOrSuperAdmin::class])->group(function () {
+        Route::post('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+    });
 });

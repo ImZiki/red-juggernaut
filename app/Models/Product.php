@@ -40,4 +40,8 @@ class Product extends Model
             'order_id' // Local key on order_items table
         );
     }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
