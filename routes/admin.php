@@ -1,6 +1,7 @@
 <?php
 // En routes/web.php o routes/admin.php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ConcertController;
@@ -11,13 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'can:accessAdminPanel'])->group(function () {
     //Rutas de administración
-    //Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    //Rutas de administracion de usuarios
-    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
-    Route::get('/admin/users/{user}', [UserController::class, 'show'])->name('admin.users.show');
-    Route::get('/admin/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
-    Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
-    Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.index');
 
     //Rutas de administracion de conciertos
     Route::get('/admin/concerts', [ConcertController::class, 'adminIndex'])->name('admin.concerts');

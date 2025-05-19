@@ -52,10 +52,9 @@ class ShopController extends Controller
 
     public function show($id)
     {
-        // Obtener el producto desde la base de datos
-        $product = Product::findOrFail($id);
-
+        $product = Product::with('images')->findOrFail($id);
         return view('pages.shop.product', compact('product'));
+
     }
 
 

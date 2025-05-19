@@ -47,7 +47,11 @@
                             <x-dropdown-link :href="route('profile.dashboard')" class="text-black">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
-
+                            @if(in_array(Auth::user()->role, ['admin', 'superadmin']))
+                                <x-dropdown-link :href="route('admin.index')" class="text-black">
+                                    {{ __('Panel de Control') }}
+                                </x-dropdown-link>
+                            @endif
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link :href="route('logout')"

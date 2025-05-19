@@ -53,86 +53,90 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-//Pagos con Stripe
-// const paymentIntentUrl = document.querySelector('meta[name="payment-intent-url"]').content;
-//
-// Alpine.data('payment', () => ({
-//     amount: 0,
-//     showPaymentForm: false,
-//     stripe: null,
-//     card: null,
-//     clientSecret: null,
-//     message: '',
-//
-//     async initPayment() {
-//         if (this.amount <= 0) {
-//             this.message = 'Por favor, ingresa un monto válido.';
-//             return;
-//         }
-//
-//         try {
-//             const response = await fetch(paymentIntentUrl, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-//                 },
-//                 body: JSON.stringify({ amount: this.amount })
-//             });
-//
-//             if (!response.ok) {
-//                 throw new Error(`Error en la respuesta: ${response.statusText}`);
-//             }
-//
-//             const data = await response.json();
-//             this.clientSecret = data.clientSecret;
-//
-//             // Inicializa Stripe solo una vez
-//             if (!this.stripe) {
-//                 this.stripe = Stripe(document.querySelector('meta[name="stripe-key"]').content);
-//             }
-//
-//             const elements = this.stripe.elements();
-//
-//             // Desmontar el elemento de la tarjeta si ya existe
-//             if (this.card) {
-//                 this.card.destroy();
-//             }
-//
-//             this.card = elements.create('card');
-//             this.card.mount('#card-element');
-//
-//             this.showPaymentForm = true;
-//             this.message = '';
-//         } catch (error) {
-//             console.error('Error al iniciar el pago:', error);
-//             this.message = 'Error al iniciar el pago: ' + error.message;
-//         }
-//     },
-//
-//     async confirmPayment() {
-//         try {
-//             const { paymentIntent, error } = await this.stripe.confirmCardPayment(this.clientSecret, {
-//                 payment_method: {
-//                     card: this.card,
-//                     billing_details: { name: 'Cliente' },
-//                 },
-//             });
-//
-//             if (error) {
-//                 this.message = 'Error en el pago: ' + error.message;
-//             } else if (paymentIntent.status === 'succeeded') {
-//                 this.message = 'Pago exitoso.';
-//                 this.showPaymentForm = false;
-//             } else {
-//                 this.message = 'Estado del pago: ' + paymentIntent.status;
-//             }
-//         } catch (error) {
-//             console.error('Error en la confirmación del pago:', error);
-//             this.message = 'Error en la confirmación del pago: ' + error.message;
-//         }
-//     }
-// }));
+
+function stripeCheckout() {
+    return {
+        stripe: null,
+        elements: null,
+        card: null,
+        paymentMethod: '',
+        loading: false,
+        errorMessages: {
+            'Your card number is incorrect.': 'El número de tarjeta es incorrecto.',
+            'Your card has expired.': 'La tarjeta ha expirado.',
+            'Your card was declined.': 'La tarjeta fue rechazada.',
+            'Your card does not support this type of purchase.': 'La tarjeta no soporta este tipo de compra.',
+            'Your card does not have sufficient funds.': 'La tarjeta no tiene fondos suficientes.',
+            'Your card has been reported lost.': 'La tarjeta ha sido reportada como perdida.',
+            'Your card has been reported stolen.': 'La tarjeta ha sido reportada como robada.',
+            'Your card\'s security code is incorrect.': 'El código de seguridad de la tarjeta es incorrecto.',
+            'Your card number is invalid.': 'El número de tarjeta es inválido.',
+            'This card number is not supported.': 'Este número de tarjeta no es soportado.',
+            'The card has expired.': 'La tarjeta ha expirado.',
+            'Processing error.': 'Error de procesamiento.',
+            'Your card was declined. This transaction requires authentication.': 'La tarjeta fue rechazada. Esta transacción requiere autenticación.',
+            'Incorrect CVC.': 'Código de seguridad incorrecto.',
+            'Incorrect zip code.': 'Código postal incorrecto.',
+            'Amount is too large to process.': 'El monto es demasiado grande para procesar.',
+            'Amount is too small to process.': 'El monto es demasiado pequeño para procesar.',
+            'Card declined.': 'Tarjeta rechazada.',
+        },
+
+        initStripe() {
+            this.stripe = Stripe(window.STRIPE_KEY)
+            const elements = this.stripe.elements({ locale: 'es' }); // UI en español
+
+            this.card = elements.create('card');
+            this.card.mount('#card-element');
+
+            this.card.on('change', (event) => {
+                if (event.error) {
+                    const mensajeUsuario = this.errorMessages[event.error.message] || 'Error en el campo de tarjeta.';
+                    alert(mensajeUsuario);
+                }
+            });
+
+            const form = document.getElementById('payment-form');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                this.loading = true;
+
+                try {
+                    const { paymentMethod, error } = await this.stripe.createPaymentMethod({
+                        type: 'card',
+                        card: this.card,
+                    });
+
+                    if (error) {
+
+                        const mensajeUsuario = this.errorMessages[error.message] || 'Ha ocurrido un error al procesar el pago.';
+                        alert(mensajeUsuario);
+                        this.loading = false;
+                        return;
+                    }
+
+                    this.paymentMethod = paymentMethod.id;
+                    this.$refs.paymentMethod.value = paymentMethod.id;
+
+                    if (!this.paymentMethod) {
+                        alert('Error: No se pudo obtener el método de pago.');
+                        this.loading = false;
+                        return;
+                    }
+
+                    form.submit();
+                } catch (err) {
+                    alert('Error al procesar el pago.');
+                    this.loading = false;
+                }
+            });
+        }
+    }
+}
+
+
+// Regístralo globalmente para Alpine.js si usas Alpine 3
+window.stripeCheckout = stripeCheckout;
 
 window.Alpine = Alpine;
 Alpine.start();

@@ -55,6 +55,31 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="w-full">
                     <h3 class="text-2xl font-semibold mb-4">{{ $product['name'] }}</h3>
+                    @if($product->images->count() > 0)
+                        {{-- Mostrar imágenes --}}
+                        <img
+                            :src="`{{ asset('storage/products/' . $product->images[0]->filename) }}`"
+                            :key="currentImage"
+                            alt="{{ $product->name }}"
+                            class="w-full h-auto rounded-lg mb-2"
+                            x-bind:src="`{{ asset('storage/products/') }}/${product.images[currentImage].filename}`"
+                        >
+
+                        <div class="flex space-x-2 justify-center">
+                            @foreach ($product->images as $index => $image)
+                                <button
+                                    @click="currentImage = {{ $index }}"
+                                    :class="{ 'ring-2 ring-blue-600': currentImage === {{ $index }} }"
+                                    class="w-12 h-12 border rounded overflow-hidden"
+                                >
+                                    <img src="{{ asset('storage/products/' . $image->filename) }}" alt="Miniatura" class="w-full h-full object-cover">
+                                </button>
+                            @endforeach
+                        </div>
+                    @else
+                        {{-- Mostrar placeholder --}}
+                        <img src="{{ asset('images/placeholder.png') }}" alt="Sin imagen" class="w-full h-auto rounded-lg mb-2">
+                    @endif
                     <p class="text-gray-700 mb-4">{{ $product['description'] }}</p>
                     <span class="text-lg font-semibold mb-4">Precio: $<span x-text="finalPrice.toFixed(2)"></span></span>
                     <p class="text-gray-600 mb-4">{{ $product['additional_info'] }}</p>

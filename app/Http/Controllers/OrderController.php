@@ -11,14 +11,14 @@ class OrderController extends Controller
     {
         $order = auth()->user()->orders()->with('items.product')->findOrFail($id);
 
-        $this->authorize('view', $order); // Autorizar ver el pedido
+        //$this->authorize('view', $order); // Autorizar ver el pedido
 
         return view('pages.shop.order', compact('order'));
     }
 
     public function updateStatus(Request $request, Order $order)
     {
-        $this->authorize('updateStatus', $order); // Autorizar actualizar estado
+        //$this->authorize('updateStatus', $order); // Autorizar actualizar estado
 
         $request->validate([
             'status' => 'required|string|in:pendiente,enviado,completado,cancelado,solicitud_devolucion',
@@ -32,7 +32,7 @@ class OrderController extends Controller
 
     public function cancel(Request $request, Order $order)
     {
-        $this->authorize('cancel', $order); // Autorizar cancelar pedido
+        //$this->authorize('cancel', $order); // Autorizar cancelar pedido
 
         // Solo permitir cancelar si no está enviado ni completado
         if (!in_array($order->status, ['pendiente'])) {
@@ -47,7 +47,7 @@ class OrderController extends Controller
 
     public function requestReturn(Request $request, Order $order)
     {
-        $this->authorize('requestReturn', $order); // Autorizar solicitud de devolución
+        //$this->authorize('requestReturn', $order); // Autorizar solicitud de devolución
 
         if ($order->status !== 'completado') {
             return back()->withErrors('No puedes solicitar devolución en este estado.');

@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Stripe\Exception\ApiConnectionException;
+use Stripe\Exception\ApiErrorException;
+use Stripe\Exception\AuthenticationException;
+use Stripe\Exception\CardException;
+use Stripe\Exception\InvalidRequestException;
 
 class CheckoutController extends Controller
 {
@@ -103,9 +108,22 @@ class CheckoutController extends Controller
                 return back()->withErrors('El pago no se pudo procesar.');
             }
 
+        } catch (CardException $e) {
+            $mensaje = 'Su tarjeta fue rechazada, revise la informacion e intentelo de nuevo';
+        } catch (InvalidRequestException $e) {
+            $mensaje = 'Solicitud inválida';
+        } catch (AuthenticationException $e) {
+            $mensaje = 'Error de autenticación con el servicio de pagos.';
+        } catch (ApiConnectionException $e) {
+            $mensaje = 'Error de conexión con el servicio de pagos. Inténtalo más tarde.';
+        } catch (ApiErrorException $e) {
+            $mensaje = 'Error del servicio de pagos. Intentalo mas tarde.';
         } catch (Exception $e) {
-            DB::rollBack();
-            return back()->withErrors('Error al procesar el pago: ' . $e->getMessage());
+            $mensaje = 'Error inesperado al procesar el pago.';
         }
+
+        DB::rollBack();
+
+        return back()->withErrors($mensaje);
     }
 }
