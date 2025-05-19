@@ -23,8 +23,8 @@
         "@fullcalendar/daygrid": "^6.1.17",
         "@fullcalendar/interaction": "^6.1.17",
         "@justinribeiro/lite-youtube": "^1.7.1",
+        "apexcharts": "^4.7.0",
         "fullcalendar": "^6.1.17",
-        "livewire": "^0.6.1",
         "vue": "^3.5.13"
     }
 }

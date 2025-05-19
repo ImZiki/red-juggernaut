@@ -5,6 +5,7 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import esLocale from '@fullcalendar/core/locales/es';
+import ApexCharts from 'apexcharts';
 
 //Calendario
 document.addEventListener('DOMContentLoaded', function () {
@@ -134,9 +135,47 @@ function stripeCheckout() {
     }
 }
 
+//Graficos con ApexCharts
+document.addEventListener('DOMContentLoaded', function () {
+    // Función para generar un gráfico
+    function renderChart(chartId, chartType, chartTitle, data) {
+        const options = {
+            chart: {
+                type: chartType,
+                height: 350
+            },
+            series: [{
+                name: chartTitle,
+                data: data
+            }],
+            xaxis: {
+                type: 'datetime',
+                labels: {
+                    format: 'dd MMM'
+                }
+            },
+            title: {
+                text: chartTitle,
+                align: 'center'
+            }
+        };
+
+        const chart = new ApexCharts(document.querySelector(chartId), options);
+        chart.render();
+    }
+
+    // Obtener los datos de los gráficos desde los atributos data-* en el HTML
+    const usersData = JSON.parse(document.getElementById('users-chart').dataset.users);
+    const ordersData = JSON.parse(document.getElementById('orders-chart').dataset.orders);
+
+    // Renderizar los gráficos
+    renderChart("#users-chart", "line", "Usuarios en los Últimos 30 Días", usersData);
+    renderChart("#orders-chart", "bar", "Pedidos en los Últimos 30 Días", ordersData);
+});
+
 
 // Regístralo globalmente para Alpine.js si usas Alpine 3
 window.stripeCheckout = stripeCheckout;
-
+window.ApexCharts = ApexCharts;
 window.Alpine = Alpine;
 Alpine.start();

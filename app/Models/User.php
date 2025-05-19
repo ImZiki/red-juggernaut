@@ -19,10 +19,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->isAdmin() || $this->isSuperAdmin();
     }
 
-    public function getFilamentName(): string
-    {
-        return $this->name;
-    }
 
     /**
      * Atributos asignables

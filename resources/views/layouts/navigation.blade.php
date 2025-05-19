@@ -11,21 +11,41 @@
                 </div>
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')" class="text-black">
-                        {{ __('Inicio') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('racf')" :active="request()->routeIs('racf')" class="text-black">
-                        {{ __('R.A.C.F') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('ops')" :active="request()->routeIs('ops')" class="text-black">
-                        {{ __('Operaciones') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('comms')" :active="request()->routeIs('comms')" class="text-black">
-                        {{ __('Comms') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('shop')" :active="request()->routeIs('shop')" class="text-black">
-                        {{ __('Tienda') }}
-                    </x-nav-link>
+                    @if(request()->is('admin*'))
+                        {{-- Menú para /admin --}}
+                        <x-nav-link :href="url('/admin')" :active="request()->is('admin')" class="text-black">
+                            {{ __('Panel Inicio') }}
+                        </x-nav-link>
+                        <x-nav-link :href="url('/admin/zona1')" :active="request()->is('admin/zona1')" class="text-black">
+                            {{ __('Zona 1') }}
+                        </x-nav-link>
+                        <x-nav-link :href="url('/admin/zona2')" :active="request()->is('admin/zona2')" class="text-black">
+                            {{ __('Zona 2') }}
+                        </x-nav-link>
+                        <x-nav-link :href="url('/admin/zona3')" :active="request()->is('admin/zona3')" class="text-black">
+                            {{ __('Zona 3') }}
+                        </x-nav-link>
+                        <x-nav-link :href="url('/')" class="text-black">
+                            {{ __('Salir del Panel') }}
+                        </x-nav-link>
+                    @else
+                        {{-- Menú para el resto de la web --}}
+                        <x-nav-link :href="route('home')" :active="request()->routeIs('home')" class="text-black">
+                            {{ __('Inicio') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('racf')" :active="request()->routeIs('racf')" class="text-black">
+                            {{ __('R.A.C.F') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('ops')" :active="request()->routeIs('ops')" class="text-black">
+                            {{ __('Operaciones') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('comms')" :active="request()->routeIs('comms')" class="text-black">
+                            {{ __('Comms') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('shop')" :active="request()->routeIs('shop')" class="text-black">
+                            {{ __('Tienda') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
             <!-- Settings Dropdown -->
@@ -86,21 +106,41 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')" class="text-black">
-                {{ __('Inicio') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('racf')" :active="request()->routeIs('racf')" class="text-black">
-                {{ __('R.A.C.F.') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('ops')" :active="request()->routeIs('ops')" class="text-black">
-                {{ __('Operaciones') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('comms')" :active="request()->routeIs('comms')" class="text-black">
-                {{ __('Comms') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('shop')" :active="request()->routeIs('shop')" class="text-black">
-                {{ __('Tienda') }}
-            </x-responsive-nav-link>
+            @if(request()->is('admin*'))
+                {{-- Menú responsive para /admin --}}
+                <x-responsive-nav-link :href="url('/admin')" :active="request()->is('admin')" class="text-black">
+                    {{ __('Panel Inicio') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="url('/admin/zona1')" :active="request()->is('admin/zona1')" class="text-black">
+                    {{ __('Zona 1') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="url('/admin/zona2')" :active="request()->is('admin/zona2')" class="text-black">
+                    {{ __('Zona 2') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="url('/admin/zona3')" :active="request()->is('admin/zona3')" class="text-black">
+                    {{ __('Zona 3') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="url('/')" class="text-black">
+                    {{ __('Salir del Panel') }}
+                </x-responsive-nav-link>
+            @else
+                {{-- Menú responsive para el resto de la web --}}
+                <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')" class="text-black">
+                    {{ __('Inicio') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('racf')" :active="request()->routeIs('racf')" class="text-black">
+                    {{ __('R.A.C.F.') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('ops')" :active="request()->routeIs('ops')" class="text-black">
+                    {{ __('Operaciones') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('comms')" :active="request()->routeIs('comms')" class="text-black">
+                    {{ __('Comms') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('shop')" :active="request()->routeIs('shop')" class="text-black">
+                    {{ __('Tienda') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
