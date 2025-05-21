@@ -6,10 +6,9 @@
     </x-slot>
 
     <div class="py-6 px-4 max-w-7xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-lg font-bold text-black">Productos</h3>
+        <div class="flex justify-end">
             <a href="{{ route('admin.products.create') }}"
-               class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow">
+               class="bg-black hover:bg-opacity-80 text-white px-4 py-2 rounded shadow">
                 + Añadir Producto
             </a>
         </div>
@@ -36,7 +35,6 @@
                         <span class="font-bold text-black">${{ number_format($product->price, 2) }}</span>
                         <span class="ml-2 text-sm text-gray-500">Stock: {{ $product->stock }}</span>
                     </div>
-                    @dump($product->category)
                     {{-- Category --}}
                     <div class="text-sm text-gray-500 mb-2">Categoría: {{ $product->category }}</div>
 

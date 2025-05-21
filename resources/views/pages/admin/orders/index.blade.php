@@ -7,7 +7,7 @@
 
     <div class="py-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($orders as $order)
+            @forelse($orders as $order)
                 @php
                     // Mapear status a color
                     $statusColors = [
@@ -39,7 +39,9 @@
                         Ver detalles
                     </a>
                 </div>
-            @endforeach
+            @empty
+                <p class="text-gray-500">No hay productos disponibles.</p>
+            @endforelse
         </div>
 
         <div class="mt-8">
