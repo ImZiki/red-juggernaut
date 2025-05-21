@@ -3,15 +3,13 @@
 use App\Http\Controllers\BandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+
 use App\Http\Controllers\ConcertController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\YoutubeController;
-use App\Http\Middleware\SetLocale;
-use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 
 

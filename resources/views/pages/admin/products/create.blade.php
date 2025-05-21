@@ -1,12 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold text-black leading-tight">
+        <h1 class="text-2xl font-semibold text-black leading-tight">
             {{ __('Crear Producto') }}
-        </h2>
+        </h1>
     </x-slot>
 
     <div class="py-6 px-4 max-w-3xl mx-auto">
         <div class="bg-white shadow rounded-lg p-6">
+            @if ($errors->any())
+                <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    <strong>Se encontraron los siguientes errores:</strong>
+                    <ul class="mt-2 list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
@@ -16,18 +27,13 @@
                            value="{{ old('name') }}"
                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200"
                            required>
-                    @error('name')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+
                 </div>
 
                 <div class="mb-4">
                     <label for="description" class="block font-semibold text-gray-700 mb-1">Descripción</label>
                     <textarea name="description" id="description" rows="4"
                               class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200">{{ old('description') }}</textarea>
-                    @error('description')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                    @enderror
                 </div>
 
                 <div class="mb-4 grid grid-cols-2 gap-4">
@@ -37,9 +43,7 @@
                                value="{{ old('price') }}"
                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200"
                                required>
-                        @error('price')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+
                     </div>
                     <div>
                         <label for="stock" class="block font-semibold text-gray-700 mb-1">Stock *</label>
@@ -47,9 +51,7 @@
                                value="{{ old('stock', 0) }}"
                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200"
                                required>
-                        @error('stock')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+
                     </div>
                 </div>
 
@@ -65,9 +67,7 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('category_id')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+
                 </div>
 
                 <div class="mb-4 flex items-center gap-6">
@@ -88,9 +88,6 @@
                     <label for="images" class="block font-semibold text-gray-700 mb-1">Imágenes (múltiples, máximo 100MB c/u)</label>
                     <input type="file" name="images[]" id="images" multiple accept="image/*" class="block w-full text-gray-600">
                     <div id="image-preview" class="mt-3 flex flex-wrap gap-3"></div>
-                    @error('images')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                    @enderror
                 </div>
 
                 <div>

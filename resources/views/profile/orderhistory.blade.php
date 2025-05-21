@@ -35,7 +35,7 @@
                                             @case('completado') bg-green-500 @break
                                             @case('cancelado') bg-red-500 @break
                                             @case('solicitud devolucion') bg-purple-500 @break
-                                            @case('devolucion completada') bg-green-500 @break
+                                            @case('devolucion aceptada') bg-green-500 @break
                                             @default bg-gray-500
                                         @endswitch">
                                         {{ __(ucfirst($order['status'])) }}

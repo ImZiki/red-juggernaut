@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold text-black leading-tight">
+        <h1 class="text-2xl font-semibold text-black leading-tight">
             {{ __('Gestión de Productos') }}
-        </h2>
+        </h1>
     </x-slot>
 
     <div class="py-6 px-4 max-w-7xl mx-auto">
@@ -36,7 +36,8 @@
                         <span class="font-bold text-black">${{ number_format($product->price, 2) }}</span>
                         <span class="ml-2 text-sm text-gray-500">Stock: {{ $product->stock }}</span>
                     </div>
-
+                    @dump($product->category)
+                    {{-- Category --}}
                     <div class="text-sm text-gray-500 mb-2">Categoría: {{ $product->category }}</div>
 
                     <div class="flex flex-wrap gap-2 mt-4">

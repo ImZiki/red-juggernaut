@@ -3,43 +3,42 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 
 class AdminOrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('user')->orderBy('created_at', 'desc')->paginate(15);
-        return view('admin.orders.index', compact('orders'));
+        $orders = Order::with('user')->latest()->paginate(10);
+        return view('pages.admin.orders.index', compact('orders'));
     }
 
-    public function updateStatus(Request $request, Order $order)
+    // Ver detalles de un pedido
+    public function show(Order $order)
     {
-        $validated = $request->validate([
-            'status' => 'required|string|in:pagado,enviado,en proceso,completado,cancelado,solicitud devolucion,devolucion completada',
-        ]);
+        $order->load('user', 'items.product'); // Asumiendo que tienes relación items → product
+        return view('pages.admin.orders.show', compact('order'));
+    }
 
-        $order->status = $validated['status'];
+    // Cambiar el estado de un pedido
+    public function updateStatus(Order $order)
+    {
+        // Validar (opcional pero recomendado)
+       request()->validate([
+               'status' => [
+                   'required',
+                   'string',
+                   'in:pendiente,completado,cancelado,pagado,devolucion aceptada,devolucion rechazada'
+               ],
+           ]);
+
+
+        $order->status = request()->status;
         $order->save();
 
-        return back()->with('success', 'Estado del pedido actualizado.');
+        return redirect()->route('admin.orders.show', $order)
+            ->with('success', 'Estado del pedido actualizado correctamente.');
     }
 
-    public function approveReturn(Order $order)
-    {
-        // Lógica para aprobar devolución
-        $order->status = 'devolucion completada';
-        $order->save();
-
-        return back()->with('success', 'Devolución aprobada.');
-    }
-
-    public function rejectReturn(Order $order)
-    {
-        // Lógica para rechazar devolución, por ejemplo regresar a "completado" o "pagado"
-        $order->status = 'completado';
-        $order->save();
-
-        return back()->with('success', 'Devolución rechazada.');
-    }
 }
 

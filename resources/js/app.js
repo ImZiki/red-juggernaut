@@ -259,6 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
 window.stripeCheckout = stripeCheckout;
 window.ApexCharts = ApexCharts;
 window.Alpine = Alpine;

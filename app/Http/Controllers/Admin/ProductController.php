@@ -27,13 +27,28 @@ class   ProductController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price'       => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'category_id' => 'nullable|integer|exists:categories,id',
+            'price'       => 'required|numeric|min:0|max:99999999.99',
+            'stock'       => 'required|integer|min:0|max:2147483647',
+            'images.*'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:102400',
             'is_featured' => 'sometimes|boolean',
             'is_active'   => 'sometimes|boolean',
-            'images.*'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:102400', // 100MB por imagen
-        ]);
+        ],[
+        'name.required'       => 'El nombre del producto es obligatorio.',
+                'name.string'         => 'El nombre del producto debe ser texto.',
+                'name.max'            => 'El nombre del producto no puede tener más de 255 caracteres.',
+                'description.string'  => 'La descripción debe ser texto válido.',
+                'price.required'      => 'El precio del producto es obligatorio.',
+                'price.numeric'       => 'El precio debe ser un número.',
+                'price.min'           => 'El precio no puede ser negativo.',
+                'price.max'           => 'El precio no puede superar los 99.999.999,99.',
+                'stock.required'      => 'El stock del producto es obligatorio.',
+                'stock.integer'       => 'El stock debe ser un número entero.',
+                'stock.min'           => 'El stock no puede ser negativo.',
+                'stock.max'           => 'El stock no puede superar los 2.147.483.647.',
+                'images.*.image'      => 'Cada archivo debe ser una imagen válida.',
+                'images.*.mimes'      => 'Las imágenes deben ser de tipo JPG, JPEG, PNG o WEBP.',
+                'images.*.max'        => 'Cada imagen no debe superar los 100MB.',
+            ]);
 
         // Defaults
         $validated['is_featured'] = $request->has('is_featured');

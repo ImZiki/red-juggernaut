@@ -16,14 +16,14 @@
                         <x-nav-link :href="url('/admin')" :active="request()->is('admin')" class="text-black">
                             {{ __('Panel Inicio') }}
                         </x-nav-link>
-                        <x-nav-link :href="url('/admin/zona1')" :active="request()->is('admin/zona1')" class="text-black">
-                            {{ __('Zona 1') }}
+                        <x-nav-link :href="url('/admin/concerts')" :active="request()->is('admin/concerts')" class="text-black">
+                            {{ __('Gestionar conciertos') }}
                         </x-nav-link>
-                        <x-nav-link :href="url('/admin/zona2')" :active="request()->is('admin/zona2')" class="text-black">
-                            {{ __('Zona 2') }}
+                        <x-nav-link :href="url('/admin/products')" :active="request()->is('admin/products')" class="text-black">
+                            {{ __('Gestionar productos') }}
                         </x-nav-link>
-                        <x-nav-link :href="url('/admin/zona3')" :active="request()->is('admin/zona3')" class="text-black">
-                            {{ __('Zona 3') }}
+                        <x-nav-link :href="url('/admin/orders')" :active="request()->is('admin/orders')" class="text-black">
+                            {{ __('Gestionar pedidos') }}
                         </x-nav-link>
                         <x-nav-link :href="url('/')" class="text-black">
                             {{ __('Salir del Panel') }}
