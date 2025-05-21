@@ -10,8 +10,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.293 2.293a1 1 0 00.293 1.414l.707.707a1 1 0 001.414 0L12 13m0 0l2.293 2.293a1 1 0 001.414 0l.707-.707a1 1 0 00.293-1.414L17 13m-10 0h10" />
                     </svg>
+
                     @php
-                        $count = count(session('cart', []));
+                        $cart = session('cart', []);
+                        $count = array_sum(array_column($cart, 'quantity'));
                     @endphp
 
                     <span class="ml-2">Carrito ({{ $count }})</span>
@@ -27,7 +29,7 @@
             <form method="GET" action="{{ route('shop') }}" class="flex w-full max-w-xs">
                 <input name="q" value="{{ request('q') }}" placeholder="Buscar…"
                        class="flex-1 p-2 border rounded-l block w-full box-border" />
-                <button class="px-4 bg-blue-600 text-white rounded-r">Buscar</button>
+                <button class="px-4 bg-black hover:bg-opacity-80 text-white rounded-r">Buscar</button>
             </form>
 
             {{-- Categorías --}}
@@ -62,10 +64,13 @@
                 <ul class="space-y-4">
                     @foreach($featured as $f)
                         <li class="flex items-center">
-                            <img src="{{ $f->image
-                  ? asset('storage/'.$f->image)
-                  : asset('images/placeholder.png') }}"
-                                 class="w-12 h-12 object-cover rounded mr-3"/>
+                            @php
+                                $fImage = $f->images->first();
+                            @endphp
+                            <img src="{{ $fImage
+                                ? asset('storage/product_images/' . $fImage->filename)
+                                : asset('images/placeholder.png') }}"
+                                 class="w-12 h-12 object-cover rounded mr-3" alt="Imagen producto"/>
                             <a href="{{ route('product.show',$f) }}" class="hover:underline">
                                 {{ $f->name }}
                             </a>
@@ -79,12 +84,15 @@
         <section class="lg:col-span-3 space-y-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($products as $product)
-                    <div class="border rounded-lg overflow-hidden shadow-sm">
+                    <div class="bg-white border rounded-lg overflow-hidden shadow-sm">
                         <a href="{{ route('product.show',$product) }}">
-                            <img src="{{ $product->image
-                  ? asset('storage/'.$product->image)
-                  : asset('images/placeholder.png') }}"
-                                 class="w-full h-48 object-cover"/>
+                            @php
+                                $productImage = $product->images->first();
+                            @endphp
+                            <img src="{{ $productImage
+    ? asset('storage/product_images/' . $productImage->filename)
+    : asset('images/placeholder.png') }}"
+                                 class="w-48 h-48 object-cover" alt="Imagen producto"/>
                         </a>
                         <div class="p-4">
                             <a href="{{ route('product.show',$product) }}" class="font-semibold hover:underline">

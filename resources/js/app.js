@@ -164,17 +164,101 @@ document.addEventListener('DOMContentLoaded', function () {
         chart.render();
     }
 
-    // Obtener los datos de los gráficos desde los atributos data-* en el HTML
-    const usersData = JSON.parse(document.getElementById('users-chart').dataset.users);
-    const ordersData = JSON.parse(document.getElementById('orders-chart').dataset.orders);
+    // Obtener datos con seguridad
+    const usersChartEl = document.getElementById('users-chart');
+    const ordersChartEl = document.getElementById('orders-chart');
 
-    // Renderizar los gráficos
-    renderChart("#users-chart", "line", "Usuarios en los Últimos 30 Días", usersData);
-    renderChart("#orders-chart", "bar", "Pedidos en los Últimos 30 Días", ordersData);
+    const usersData = usersChartEl?.dataset?.users ? JSON.parse(usersChartEl.dataset.users) : null;
+    const ordersData = ordersChartEl?.dataset?.orders ? JSON.parse(ordersChartEl.dataset.orders) : null;
+
+    // Renderizar sólo si hay datos
+    if (usersData) {
+        renderChart("#users-chart", "line", "Usuarios en los Últimos 30 Días", usersData);
+    }
+    if (ordersData) {
+        renderChart("#orders-chart", "bar", "Pedidos en los Últimos 30 Días", ordersData);
+    }
 });
 
 
-// Regístralo globalmente para Alpine.js si usas Alpine 3
+//Creacion de productos:
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('images');
+    if (!input) return; // Si no hay input, no hacer nada
+
+    const preview = document.getElementById('image-preview');
+    let filesArray = [];
+
+    function renderPreview() {
+        preview.innerHTML = '';
+
+        filesArray.forEach((file, index) => {
+            const fileReader = new FileReader();
+
+            const container = document.createElement('div');
+            container.classList.add('relative', 'inline-block');
+
+            fileReader.onload = (e) => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('h-24', 'w-auto', 'rounded', 'shadow', 'border');
+                container.appendChild(img);
+            };
+
+            fileReader.readAsDataURL(file);
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.innerHTML = '✕';
+            btn.title = 'Eliminar imagen';
+            btn.classList.add(
+                'absolute', 'top-0', 'right-0', 'bg-red-600', 'text-white',
+                'rounded-full', 'w-6', 'h-6', 'flex', 'items-center', 'justify-center',
+                'hover:bg-red-700', 'cursor-pointer', 'select-none'
+            );
+
+            btn.addEventListener('click', () => {
+                filesArray.splice(index, 1);
+                updateInputFiles();
+                renderPreview();
+            });
+
+            container.appendChild(btn);
+            preview.appendChild(container);
+        });
+    }
+
+    function updateInputFiles() {
+        const dataTransfer = new DataTransfer();
+
+        filesArray.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        input.files = dataTransfer.files;
+    }
+
+    input.addEventListener('change', (event) => {
+        const selectedFiles = Array.from(event.target.files);
+
+        for (const file of selectedFiles) {
+            if (file.size > 104857600) { // 100MB
+                alert(`La imagen "${file.name}" supera los 100MB y no será añadida.`);
+                continue;
+            }
+
+            if (!filesArray.some(f => f.name === file.name && f.size === file.size)) {
+                filesArray.push(file);
+            }
+        }
+
+        updateInputFiles();
+        renderPreview();
+    });
+});
+
+
+
 window.stripeCheckout = stripeCheckout;
 window.ApexCharts = ApexCharts;
 window.Alpine = Alpine;

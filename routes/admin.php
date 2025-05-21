@@ -1,6 +1,7 @@
 <?php
 // En routes/web.php o routes/admin.php
 
+use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
@@ -29,8 +30,13 @@ Route::middleware(['auth', 'can:accessAdminPanel'])->group(function () {
     Route::get('/admin/products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
     Route::put('/admin/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
     Route::delete('/admin/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+    Route::put('/admin/products/{product}/toggle-featured', [ProductController::class, 'toggleFeatured'])->name('admin.products.toggleFeatured');
+    Route::put('/admin/products/{product}/toggle-active', [ProductController::class, 'toggleActive'])->name('admin.products.toggleActive');
 
-    Route::middleware(['auth', isAdminOrSuperAdmin::class])->group(function () {
-        Route::post('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+    Route::prefix('admin')->middleware(['auth', isAdminOrSuperAdmin::class])->group(function () {
+        Route::get('orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+        Route::patch('orders/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+        Route::patch('orders/{order}/approve-return', [AdminOrderController::class, 'approveReturn'])->name('admin.orders.approveReturn');
+        Route::patch('orders/{order}/reject-return', [AdminOrderController::class, 'rejectReturn'])->name('admin.orders.rejectReturn');
     });
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,5 +64,11 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+    public function showOrderHistory(Request $request)
+    {
+        $orders = auth()->user()->orders()->with('items.product')->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('profile.orderhistory', compact('orders'));
     }
 }

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    use AuthorizesRequests;
     public function show($id)
     {
         $order = auth()->user()->orders()->with('items.product')->findOrFail($id);
@@ -21,7 +23,7 @@ class OrderController extends Controller
         //$this->authorize('updateStatus', $order); // Autorizar actualizar estado
 
         $request->validate([
-            'status' => 'required|string|in:pendiente,enviado,completado,cancelado,solicitud_devolucion',
+            'status' => 'required|string|in:pendiente,enviado,completado,cancelado,solicitud devolucion',
         ]);
 
         $order->status = $request->input('status');
@@ -30,12 +32,13 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
     }
 
-    public function cancel(Request $request, Order $order)
+    public function cancelOrder(Request $request, $orderId)
     {
-        //$this->authorize('cancel', $order); // Autorizar cancelar pedido
+        $order = Order::findOrFail($orderId);
 
-        // Solo permitir cancelar si no está enviado ni completado
-        if (!in_array($order->status, ['pendiente'])) {
+        $this->authorize('cancel', $order);
+
+        if (!in_array($order->status, ['pagado'])) {
             return back()->withErrors('No puedes cancelar este pedido en su estado actual.');
         }
 
@@ -45,17 +48,22 @@ class OrderController extends Controller
         return back()->with('success', 'Pedido cancelado correctamente.');
     }
 
-    public function requestReturn(Request $request, Order $order)
+    public function requestReturn(Request $request, $orderId)
     {
-        //$this->authorize('requestReturn', $order); // Autorizar solicitud de devolución
+        $order = Order::findOrFail($orderId);
+
+        $this->authorize('requestReturn', $order);
 
         if ($order->status !== 'completado') {
             return back()->withErrors('No puedes solicitar devolución en este estado.');
         }
 
-        $order->status = 'solicitud_devolucion';
+        $order->status = 'solicitud devolucion';
         $order->save();
 
         return back()->with('success', 'Solicitud de devolución enviada.');
     }
+
+
+
 }

@@ -12,7 +12,7 @@
             </a>
             <a href="#" class="inline-block px-4 py-2 bg-black text-white rounded-lg hover:bg-opacity-80 transition">
                 <h3 class="text-xl font-semibold mb-2">Zona 3</h3>
-                <p>Gestion X</p>
+                <p>Gestion Pedidos</p>
             </a>
         </div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">

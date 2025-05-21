@@ -21,16 +21,11 @@ class OrderPolicy
      */
     public function cancel(User $user, Order $order)
     {
-        // Solo puede cancelar si es dueño y el estado es 'pendiente'
-        return $user->id === $order->user_id && $order->status === 'pendiente';
+        return $user->id === $order->user_id && $order->status === 'pagado';
     }
 
-    /**
-     * Determina si el usuario puede solicitar devolución.
-     */
     public function requestReturn(User $user, Order $order)
     {
-        // Solo dueño y si el pedido está completado
         return $user->id === $order->user_id && $order->status === 'completado';
     }
 }

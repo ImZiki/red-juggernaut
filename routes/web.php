@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::patch('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/edit', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/profile/orderhistory', [ProfileController::class, 'orderhistory'])->name('profile.orderhistory');
+    Route::get('/profile/orderhistory', [ProfileController::class, 'showOrderHistory'])->name('profile.orderhistory');
 });
 //Rutas temporales de la tienda
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
@@ -47,7 +47,6 @@ Route::get('/order/{orderId}/success', [OrderController::class, 'showSuccess']);
 Route::middleware(['auth'])->group(function() {
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
-
     Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
 });
 
@@ -59,7 +58,7 @@ Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear')
 
 //Rutas para manejo de pedidos
 Route::middleware('auth')->group(function () {
-    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
     Route::post('/orders/{order}/return-request', [OrderController::class, 'requestReturn'])->name('orders.returnRequest');
 });
 
