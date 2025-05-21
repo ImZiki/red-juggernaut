@@ -47,4 +47,8 @@ class Post extends Model
         // Almacena en el directorio "media" dentro de "public"
         return $mediaFile->store('media', 'public');
     }
+    public function images()
+    {
+        return $this->hasMany(PostImage::class);
+    }
 }
