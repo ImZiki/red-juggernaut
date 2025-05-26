@@ -53,10 +53,20 @@ class   ProductController extends Controller
         // Defaults
         $validated['is_featured'] = $request->has('is_featured');
         $validated['is_active']   = $request->has('is_active');
+        if($request['category_id'] === 'Merchandising'){
+            $validated['category_id'] = 1;
+            $validated['category'] = 'Merchandising';
+        }else if($request['category_id'] === 'Entradas'){
+            $validated['category_id'] = 2;
+            $validated['category'] = 'Entradas';
+        }else{
+            $validated['category_id'] = 3;
+            $validated['category'] = 'Clothing';
+        }
+
 
         // 1) Crear el producto
         $product = Product::create($validated);
-
         // 2) Subir y asociar cada imagen
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -78,8 +88,10 @@ class   ProductController extends Controller
 
     public function edit(Product $product)
     {
-        return view('admin.products.edit', compact('product'));
+        $categories = Category::all();
+        return view('pages.admin.products.edit', compact('product', 'categories'));
     }
+
 
     public function update(Request $request, Product $product)
     {
@@ -119,7 +131,7 @@ class   ProductController extends Controller
     public function toggleActive(Product $product)
     {
         $product->is_active = !$product->is_active;
-        $product->is_featured = !$product->is_featured;
+        $product->is_featured = false;
         $product->save();
 
         return back()->with('success', 'Estado de visibilidad actualizado.');

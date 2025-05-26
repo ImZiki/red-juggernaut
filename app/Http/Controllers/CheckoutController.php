@@ -34,6 +34,7 @@ class CheckoutController extends Controller
         $user = $request->user();
         $cart = Session::get('cart', []);
 
+
         if (empty($cart)) {
             return redirect()->route('cart.index')->with('error', 'El carrito está vacío.');
         }
@@ -93,8 +94,9 @@ class CheckoutController extends Controller
                         'product_id' => $productId,
                         'quantity' => $item['quantity'],
                         'price' => $item['price'],
-                        'option' => $item['option'], // o 'options' si prefieres plural
+                        'options' => $item['option'], // o 'options' si prefieres plural
                     ]);
+
                 }
 
 

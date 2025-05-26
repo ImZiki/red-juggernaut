@@ -61,8 +61,7 @@
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200">
                         <option value="">-- Seleccionar categoría --</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}"
-                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                            <option value="{{ $category->name }}">
                                 {{ $category->name }}
                             </option>
                         @endforeach

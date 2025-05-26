@@ -82,7 +82,7 @@
                     <span class="text-lg font-semibold mb-4">Precio: $<span x-text="finalPrice.toFixed(2)"></span></span>
                     <p class="text-gray-600 mb-4">{{ $product['additional_info'] }}</p>
 
-                    @if($product['category'] === 'Conciertos')
+                    @if($product['category'] === 'Entradas')
                         <label for="seatType" class="block mb-2">Tipo de asiento:</label>
                         <select x-model="selectedOption" @change="calculatePrice()" class="w-full p-2 border rounded mb-4">
                             <option value="Estandar">Estandar</option>
