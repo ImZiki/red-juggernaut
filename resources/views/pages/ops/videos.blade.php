@@ -21,10 +21,10 @@
                                             {{ $video['snippet']['title'] }}
                                         </h5>
                                         <p class="text-black mb-3">
-                                            {{ Str::limit($video['snippet']['description'], 100) }}
+                                            {{ \Illuminate\Support\Str::limit($video['snippet']['description'], 100) }}
                                         </p>
                                         <p class="text-black text-sm">
-                                            {{ __('Publicado:') }} {{ Carbon::parse($video['snippet']['publishedAt'])->format('d/m/Y') }}
+                                            {{ __('Publicado:') }} {{ \Carbon\Carbon::parse($video['snippet']['publishedAt'])->format('d/m/Y') }}
                                         </p>
                                     </div>
                                 </div>

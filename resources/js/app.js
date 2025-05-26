@@ -135,51 +135,6 @@ function stripeCheckout() {
     }
 }
 
-//Graficos con ApexCharts
-document.addEventListener('DOMContentLoaded', function () {
-    // Función para generar un gráfico
-    function renderChart(chartId, chartType, chartTitle, data) {
-        const options = {
-            chart: {
-                type: chartType,
-                height: 350
-            },
-            series: [{
-                name: chartTitle,
-                data: data
-            }],
-            xaxis: {
-                type: 'datetime',
-                labels: {
-                    format: 'dd MMM'
-                }
-            },
-            title: {
-                text: chartTitle,
-                align: 'center'
-            }
-        };
-
-        const chart = new ApexCharts(document.querySelector(chartId), options);
-        chart.render();
-    }
-
-    // Obtener datos con seguridad
-    const usersChartEl = document.getElementById('users-chart');
-    const ordersChartEl = document.getElementById('orders-chart');
-
-    const usersData = usersChartEl?.dataset?.users ? JSON.parse(usersChartEl.dataset.users) : null;
-    const ordersData = ordersChartEl?.dataset?.orders ? JSON.parse(ordersChartEl.dataset.orders) : null;
-
-    // Renderizar sólo si hay datos
-    if (usersData) {
-        renderChart("#users-chart", "line", "Usuarios en los Últimos 30 Días", usersData);
-    }
-    if (ordersData) {
-        renderChart("#orders-chart", "bar", "Pedidos en los Últimos 30 Días", ordersData);
-    }
-});
-
 
 //Creacion de productos:
 document.addEventListener('DOMContentLoaded', () => {

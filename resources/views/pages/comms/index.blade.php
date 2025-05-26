@@ -13,7 +13,17 @@
                 {{ session('success') }}
             </div>
         @endif
-
+        <!-- Mensaje de error si hay problemas al enviar el formulario -->
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <strong>Se encontraron los siguientes errores:</strong>
+                <ul class="mt-2 list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <!-- Formulario para solicitar un concierto -->
         <h2 class="text-[2em] font-semibold mb-4 text-center">Solicitar un concierto</h2>
         <form action="{{ route('concert.handleRequest') }}" method="POST" class="space-y-4 w-full max-w-xl">

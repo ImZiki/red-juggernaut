@@ -69,7 +69,7 @@
                             </x-dropdown-link>
                             @if(in_array(Auth::user()->role, ['admin', 'superadmin']))
                                 <x-dropdown-link :href="route('admin.index')" class="text-black">
-                                    {{ __('Panel de Control') }}
+                                    {{ __('Panel de Administracion') }}
                                 </x-dropdown-link>
                             @endif
                             <form method="POST" action="{{ route('logout') }}">
@@ -155,7 +155,11 @@
                     <x-responsive-nav-link :href="route('profile.dashboard')" class="text-black">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
-
+                    @if(in_array(Auth::user()->role, ['admin', 'superadmin']))
+                        <x-responsive-nav-link :href="route('admin.index')" class="text-black">
+                            {{ __('Panel de Administracion') }}
+                        </x-responsive-nav-link>
+                    @endif
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <x-responsive-nav-link :href="route('logout')"

@@ -9,7 +9,6 @@ use App\Models\ConcertRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 
 class AdminConcertController extends Controller
 {
@@ -65,54 +64,19 @@ class AdminConcertController extends Controller
     {
         $request->validate([
             'title'       => 'required|string',
-            'date'        => 'required|date',
+            'date'        => 'required|date|after_or_equal:today',
             'location'    => 'required|string',
             'with_ticket' => 'nullable|in:on',
-            // Validaciones para el producto solo si se quiere añadir ticket
-            'name'        => 'required_if:with_ticket,on|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required_if:with_ticket,on|numeric|min:0|max:99999999.99',
-            'stock' => 'required_if:with_ticket,on|integer|min:0|max:2147483647',
-            'images.*'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:102400',
         ], [
             // --- Campos del concierto ---
             'title.required'     => 'El título del concierto es obligatorio.',
             'title.string'       => 'El título debe ser un texto válido.',
-
             'date.required'      => 'La fecha del concierto es obligatoria.',
             'date.date'          => 'La fecha debe tener un formato válido.',
-
+            'date.after_or_equal' => 'La fecha del concierto debe ser hoy o una fecha futura.',
             'location.required'  => 'La ubicación es obligatoria.',
             'location.string'    => 'La ubicación debe ser un texto válido.',
-
             'with_ticket.in'     => 'El valor de la opción de entrada no es válido.',
-
-            // --- Campos del producto (condicionales si hay entrada) ---
-            'name.required_if'   => 'El nombre del producto es obligatorio si se incluye entrada.',
-            'name.string'        => 'El nombre del producto debe ser texto.',
-            'name.max'           => 'El nombre del producto no puede tener más de 255 caracteres.',
-
-            'description.string' => 'La descripción debe ser un texto válido.',
-
-            'price.required_if'  => 'El precio es obligatorio si se incluye entrada.',
-            'price.numeric'      => 'El precio debe ser un número.',
-            'price.min'          => 'El precio no puede ser negativo.',
-            'price.max'          => 'El precio no puede superar los 99.999.999,99.',
-
-            'stock.required_if'  => 'El stock es obligatorio si se incluye entrada.',
-            'stock.integer'      => 'El stock debe ser un número entero.',
-            'stock.min'          => 'El stock no puede ser negativo.',
-            'stock.max'          => 'El stock no puede superar los 2.147.483.647.',
-
-            'category_id.integer' => 'La categoría debe ser un número válido.',
-            'category_id.exists'  => 'La categoría seleccionada no existe.',
-
-            'is_featured.boolean' => 'El campo "destacado" debe ser verdadero o falso.',
-            'is_active.boolean'   => 'El campo "activo" debe ser verdadero o falso.',
-
-            'images.*.image'      => 'Cada archivo debe ser una imagen válida.',
-            'images.*.mimes'      => 'Las imágenes deben ser de tipo JPG, JPEG, PNG o WEBP.',
-            'images.*.max'        => 'Cada imagen no debe superar los 100MB.',
         ]);
 
         $product = null;

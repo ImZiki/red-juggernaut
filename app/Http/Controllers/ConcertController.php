@@ -39,10 +39,12 @@ class ConcertController extends Controller
         // Validación de los datos del formulario
         $validated = $request->validate([
             'request_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'venue' => 'required|string|max:255',
-            'date' => 'required|date',
-            'message' => 'nullable|string|max:500',
+            'email'        => 'required|email|max:255',
+            'venue'        => 'required|string|max:255',
+            'date'         => 'required|date|after_or_equal:today',
+            'message'      => 'nullable|string|max:500',
+        ], [
+            'date.after_or_equal' => 'La fecha del concierto no puede estar en el pasado.',
         ]);
         // Crear la solicitud de concierto en la base de datos
         ConcertRequest::create($validated);

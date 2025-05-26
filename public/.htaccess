@@ -18,6 +18,11 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # Servir favicon.ico si existe directamente, sin pasar por index.php
+    RewriteCond %{REQUEST_URI} ^/favicon\.ico$
+    RewriteCond %{DOCUMENT_ROOT}/favicon.ico -f
+    RewriteRule ^favicon\.ico$ /favicon.ico [L]
+
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

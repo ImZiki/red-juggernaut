@@ -47,7 +47,7 @@
                         this.toastMessage = 'No se pudo añadir al carrito.';
                     } finally {
                         this.showToast = true;
-                        setTimeout(() => this.showToast = false, 3000);
+                        setTimeout(() => this.showToast = false, 1000 );
                     }
                 }
              }"

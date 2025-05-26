@@ -41,7 +41,7 @@
                             @class([
                                 'font-bold border-b-4 border-red-500 shadow-md' => !request('category'),
                                 'inline-block pb-1' // para que el border-bottom quede pegado al texto
-                            ])>Todas</a>
+                            ])>- Todas</a>
                     </li>
                     @foreach($categories as $cat)
                         <li class="mb-3">
@@ -50,7 +50,7 @@
                                     'font-bold border-b-4 border-red-500 shadow-md' => request('category') == $cat->slug,
                                     'inline-block pb-1'
                                 ])>
-                                {{ $cat->name }}
+                                - {{ $cat->name }}
                             </a>
                         </li>
                     @endforeach
