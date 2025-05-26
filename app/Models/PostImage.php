@@ -8,7 +8,7 @@ class PostImage extends Model
 {
     protected $fillable = ['post_id', 'filename'];
 
-    public function product()
+    public function post()
     {
         return $this->belongsTo(Post::class);
     }
