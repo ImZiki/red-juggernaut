@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
 
 //Ruta regalo para Diego 😉
 
-Route::get('/easter-egg-teapot', function () {
+Route::get('/kit-prensa', function () {
     // Lanzamos la excepción 418
     throw new HttpException(418, "I'm a teapot");
 });
