@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\AdminConcertController;
 use Illuminate\Support\Facades\Route;
@@ -29,9 +30,16 @@ Route::middleware(['auth', 'can:accessAdminPanel'])->group(function () {
     Route::delete('/admin/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
     Route::put('/admin/products/{product}/toggle-featured', [ProductController::class, 'toggleFeatured'])->name('admin.products.toggleFeatured');
     Route::put('/admin/products/{product}/toggle-active', [ProductController::class, 'toggleActive'])->name('admin.products.toggleActive');
-
+    //Rutas de administracion de pedidos
     Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
     Route::get('/admin/orders/{order}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
     Route::put('/admin/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+    //Rutas de administracion de posts
 
+    Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/admin/posts/create', [PostController::class, 'create'])->name('posts.create');
+    Route::post('/admin/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::put('/admin/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/admin/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 });
