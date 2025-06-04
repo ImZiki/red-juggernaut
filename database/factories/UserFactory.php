@@ -49,7 +49,7 @@ class UserFactory extends Factory
     public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'name' => 'ADMIN',
+            'name' => 'Red Juggernaut',
             'email' => 'admin@admin.com',
             'password' => static::$password ??= Hash::make('password'), // Contraseña predeterminada
             'role' => 'admin', // Asignar rol de administrador

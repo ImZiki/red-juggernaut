@@ -1,19 +1,18 @@
 version: '3.8'
 
 services:
-    red_juggernaut:
+    app:
         build:
             context: .
             dockerfile: Dockerfile
+        volumes:
+            - storage:/var/www/html/storage
         ports:
             - "8000:80"
-        volumes:
-            - ./:/var/www/html
-            - storage:/var/www/html/storage
         depends_on:
-            - mysql
+            - mysql_db
         environment:
-            DB_HOST: mysql
+            DB_HOST: mysql_db
             DB_PORT: 3306
             DB_DATABASE: red_juggernaut
             DB_USERNAME: root
@@ -26,11 +25,9 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: red_juggernaut
-            MYSQL_USER: root
-            MYSQL_PASSWORD: root
         volumes:
             - mysql_data:/var/lib/mysql
 
 volumes:
-    storage:
     mysql_data:
+

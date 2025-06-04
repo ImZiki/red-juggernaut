@@ -61,7 +61,7 @@
                     <img
                         :src="images.length > 0 ? '{{ asset('storage/product_images') }}/' + images[currentImage] : '{{ asset('images/placeholder.png') }}'"
                         alt="{{ $product['name'] }}"
-                        class="w-full h-auto rounded-lg mb-2"
+                        class="w-full h-full rounded-lg mb-2"
                     >
 
                     <!-- Miniaturas -->
@@ -73,7 +73,7 @@
                                 class="w-12 h-12 border rounded overflow-hidden"
                                 type="button"
                             >
-                                <img :src="'{{ asset('storage/products') }}/' + img" alt="Miniatura" class="w-full h-full object-cover">
+                                <img :src="'{{ asset('storage/product_images') }}/' + img" alt="Miniatura" class="w-full h-full object-cover">
                             </button>
                         </template>
                     </div>
@@ -127,7 +127,7 @@
                     </div>
 
                     <a href="{{ route('shop') }}"
-                       class="inline-block mt-6 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition">
+                       class="inline-block mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-red-500 transition">
                         &larr; Volver a la tienda
                     </a>
                 </div>

@@ -1,39 +1,49 @@
-# Imagen base oficial de PHP con Apache
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
-# Instalar extensiones necesarias
+# Instalar dependencias del sistema, PHP y Node.js
 RUN apt-get update && apt-get install -y \
-    git curl zip unzip libpng-dev libonig-dev libxml2-dev libzip-dev libpq-dev \
-    && docker-php-ext-install pdo pdo_mysql zip
+    git \
+    unzip \
+    libzip-dev \
+    zip \
+    curl \
+    gnupg2 \
+    lsb-release \
+    ca-certificates \
+    nginx \
+    nodejs \
+    npm \
+    && docker-php-ext-install pdo_mysql zip bcmath \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Activar mod_rewrite de Apache
-RUN a2enmod rewrite
+# Configurar Git
+RUN git config --global --add safe.directory /var/www/html
+
+# Crear y asignar permisos
+WORKDIR /var/www/html
+COPY composer.json composer.lock ./
 
 # Instalar Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && php -r "unlink('composer-setup.php');"
 
-# Establecer directorio de trabajo
-WORKDIR /var/www/html
-
-# Copiar dependencias sin node_modules ni vendor (usa .dockerignore)
+# Copiar el resto del código
 COPY . .
 
 # Instalar dependencias PHP
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Dar permisos a storage y bootstrap
+# Permisos para Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-# Enlace a la carpeta de almacenamiento público
-RUN php artisan storage:link || true
+# Copiar configuración de nginx
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Variables de entorno (se definen en docker-compose)
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-
-# Configurar Apache para apuntar a public/
-RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf \
-    && sed -ri -e 's!/var/www/!/var/www/html/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
-# Exponer el puerto 80
+# Exponer el puerto HTTP
 EXPOSE 80
+
+# Comando final: inicia nginx y PHP-FPM
+CMD service nginx start && php-fpm && php artisan storage:link
