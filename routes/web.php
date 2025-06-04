@@ -9,8 +9,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
-use App\Http\Controllers\YoutubeController;
+use App\Http\Controllers\OpsController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 
 
@@ -19,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/racf', [BandController::class, 'index'])->name('racf');
 Route::get('/racf/{codename}', [BandController::class, 'showMember'])->name('racf.member.show');
-Route::get('/ops', [YoutubeController::class, 'index'])->name('ops');
+Route::get('/ops', [OpsController::class, 'index'])->name('ops');
+Route::get('/ops/{post}', [OpsController::class, 'show'])->name('ops.show');
 Route::get('/comms', [ConcertController::class, 'index'])->name('comms');
 Route::get('/api/concerts', [ConcertController::class, 'getConcerts']);
 Route::post('/comms', [ConcertController::class, 'handleRequestForm'])->name('concert.handleRequest');
@@ -60,6 +62,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/orders/{order}/return-request', [OrderController::class, 'requestReturn'])->name('orders.returnRequest');
 });
 
+//Ruta regalo para Diego 😉
+
+Route::get('/easter-egg-teapot', function () {
+    // Lanzamos la excepción 418
+    throw new HttpException(418, "I'm a teapot");
+});
+Route::get('/about-me', function () {
+    return view('aboutme');
+})->name('aboutme');
 
 require __DIR__ . '/admin.php';
 require __DIR__.'/auth.php';

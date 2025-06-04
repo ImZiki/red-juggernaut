@@ -18,7 +18,6 @@ class Post extends Model
         'title',
         'content',
         'user_id',
-        'image',  // Este campo para el contenido multimedia
     ];
 
     /**

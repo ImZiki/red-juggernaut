@@ -3,7 +3,7 @@
         <!-- LOGO Y COPYRIGHT -->
         <div class="mb-6 md:mb-0">
             <a href="{{ url('/') }}" class="text-white text-lg font-semibold">Red Juggernaut</a>
-            <p class="mt-2">&copy; <span x-data="{ year: new Date().getFullYear() }" x-text="year"></span> Todos los derechos reservados.</p>
+            <p class="mt-2"><a href="{{url('/about-me')}}">&copy;</a> <span x-data="{ year: new Date().getFullYear() }" x-text="year"></span> Todos los derechos reservados.</p>
         </div>
 
 
@@ -37,7 +37,7 @@
         <!-- KIT DE PRENSA -->
         <div>
             <h3 class="text-white font-semibold mb-2">Kit de Prensa</h3>
-            <a href="{{ url('/press-kit') }}" class="hover:text-white flex items-center">
+            <a href="{{  url('/easter-egg-teapot') }}" class="hover:text-white flex items-center">
                 <i class="fas fa-file-pdf mr-2"></i> Descargar PDF
             </a>
         </div>

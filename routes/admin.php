@@ -36,10 +36,10 @@ Route::middleware(['auth', 'can:accessAdminPanel'])->group(function () {
     Route::put('/admin/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     //Rutas de administracion de posts
 
-    Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
-    Route::get('/admin/posts/create', [PostController::class, 'create'])->name('posts.create');
-    Route::post('/admin/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-    Route::put('/admin/posts/{post}', [PostController::class, 'update'])->name('posts.update');
-    Route::delete('/admin/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::get('/admin/posts', [PostController::class, 'index'])->name('admin.posts.index');
+    Route::get('/admin/posts/create', [PostController::class, 'create'])->name('admin.posts.create');
+    Route::post('/admin/posts', [PostController::class, 'store'])->name('admin.posts.store');
+    Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
+    Route::put('/admin/posts/{post}', [PostController::class, 'update'])->name('admin.posts.update');
+    Route::delete('/admin/posts/{post}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
 });

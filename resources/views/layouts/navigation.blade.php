@@ -26,7 +26,7 @@
                             {{ __('Gestionar pedidos') }}
                         </x-nav-link>
                         <x-nav-link :href="url('/admin/posts')" :active="request()->is('admin/orders')" class="text-black">
-                            {{ __('Gestionar pedidos') }}
+                            {{ __('Gestionar posts') }}
                         </x-nav-link>
                         <x-nav-link :href="url('/')" class="text-black">
                             {{ __('Salir del Panel') }}
@@ -124,7 +124,7 @@
                     {{ __('Gestionar pedidos') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="url('/admin/posts')" :active="request()->is('admin/orders')" class="text-black">
-                    {{ __('Gestionar pedidos') }}
+                    {{ __('Gestionar posts') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="url('/')" class="text-black">
                     {{ __('Salir del Panel') }}
