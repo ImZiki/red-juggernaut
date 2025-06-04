@@ -30,4 +30,5 @@ services:
 
 volumes:
     mysql_data:
+    storage:
 
