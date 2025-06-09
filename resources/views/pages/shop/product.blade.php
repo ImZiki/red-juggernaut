@@ -58,11 +58,13 @@
                     <h3 class="text-2xl font-semibold mb-4">{{ $product['name'] }}</h3>
 
                     <!-- Imagen principal -->
-                    <img
-                        :src="images.length > 0 ? '{{ asset('storage/product_images') }}/' + images[currentImage] : '{{ asset('images/placeholder.png') }}'"
-                        alt="{{ $product['name'] }}"
-                        class="w-full h-full rounded-lg mb-2"
-                    >
+                    <div class="w-full aspect-[4/3] overflow-hidden rounded-lg mb-2">
+                        <img
+                            :src="images.length > 0 ? '{{ asset('storage/product_images') }}/' + images[currentImage] : '{{ asset('images/placeholder.png') }}'"
+                            alt="{{ $product['name'] }}"
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
 
                     <!-- Miniaturas -->
                     <div class="flex space-x-2 justify-center mt-2" x-show="images.length > 1">
