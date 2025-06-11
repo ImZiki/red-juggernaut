@@ -51,8 +51,8 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'name' => 'Red Juggernaut',
             'email' => 'admin@admin.com',
-            'password' => static::$password ??= Hash::make('password'), // Contraseña predeterminada
-            'role' => 'admin', // Asignar rol de administrador
+            'password' => static::$password ??= Hash::make('password'),
+            'role' => 'admin',
         ]);
     }
 }

@@ -19,7 +19,7 @@ class YoutubeService
     public function getChannelVideos($channelId, $maxResults = 10)
     {
         try {
-            // Primero obtenemos los ID de los videos más recientes del canal
+            // Obtencion de los ID de los videos más recientes del canal
             $response = $this->client->get('https://www.googleapis.com/youtube/v3/search', [
                 'query' => [
                     'key' => $this->apiKey,
@@ -33,13 +33,13 @@ class YoutubeService
 
             $searchResults = json_decode($response->getBody(), true);
 
-            // Extraemos los IDs de videos
+            // Extraccion de los IDs de videos
             $videoIds = [];
             foreach ($searchResults['items'] as $item) {
                 $videoIds[] = $item['id']['videoId'];
             }
 
-            // Ahora obtenemos información detallada de los videos
+            // Información detallada de los videos
             $videoResponse = $this->client->get('https://www.googleapis.com/youtube/v3/videos', [
                 'query' => [
                     'key' => $this->apiKey,

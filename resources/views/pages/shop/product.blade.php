@@ -129,7 +129,7 @@
                     </div>
 
                     <a href="{{ route('shop') }}"
-                       class="inline-block mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-red-500 transition">
+                       class="inline-block mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-o transition">
                         &larr; Volver a la tienda
                     </a>
                 </div>

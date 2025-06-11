@@ -25,7 +25,7 @@
                         <x-nav-link :href="url('/admin/orders')" :active="request()->is('admin/orders')" class="text-black">
                             {{ __('Gestionar pedidos') }}
                         </x-nav-link>
-                        <x-nav-link :href="url('/admin/posts')" :active="request()->is('admin/orders')" class="text-black">
+                        <x-nav-link :href="url('/admin/posts')" :active="request()->is('admin/posts')" class="text-black">
                             {{ __('Gestionar posts') }}
                         </x-nav-link>
                         <x-nav-link :href="url('/')" class="text-black">

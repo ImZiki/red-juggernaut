@@ -60,7 +60,7 @@ class CheckoutController extends Controller
 
             // Crear un PaymentIntent y cobrar al cliente
             $charge = $user->charge(
-                $total * 100,  // Monto en centavos
+                $total * 100,
                 $paymentMethod,
                 [
                     'currency' => 'eur',
@@ -94,7 +94,7 @@ class CheckoutController extends Controller
                         'product_id' => $productId,
                         'quantity' => $item['quantity'],
                         'price' => $item['price'],
-                        'options' => $item['option'], // o 'options' si prefieres plural
+                        'options' => $item['option'],
                     ]);
 
                 }

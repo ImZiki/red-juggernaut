@@ -106,7 +106,6 @@ class AdminConcertController extends Controller
                 'images.*.max'        => 'Cada imagen no debe superar los 100MB.',
             ]);
 
-            // Ajustamos booleans (por si no vienen)
             $validatedProduct['is_featured'] = true;
             $validatedProduct['is_active']   = true;
             $validatedProduct['category'] = "Entradas";
@@ -114,10 +113,8 @@ class AdminConcertController extends Controller
 
 
 
-            // Crear producto
             $product = Product::create($validatedProduct);
 
-            // Subir y asociar imágenes
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     $filename = uniqid() . '.' . $image->getClientOriginalExtension();
@@ -131,7 +128,7 @@ class AdminConcertController extends Controller
         }
 
         // Crear concierto con relación al producto si existe
-        $concert = Concert::create([
+        Concert::create([
             'title'      => $request->input('title'),
             'date'       => new Carbon($request->input('date')),
             'location'   => $request->input('location'),
